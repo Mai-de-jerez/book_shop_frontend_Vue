@@ -5,7 +5,7 @@
 
     <template v-if="authStore.estaLogueado">
       <template v-if="authStore.esCliente">
-        <router-link to="/perfil">Mi Perfil</router-link>
+        <router-link to="/perfil/ver">Mi Perfil</router-link>
         <router-link to="/carrito">
           🛒 Carrito <span v-if="totalItems > 0" class="badge">({{ totalItems }})</span>
         </router-link>
@@ -35,26 +35,16 @@ const totalItems = ref(0)
 
 async function actualizarContadorCarrito() {
   const carritoActual = JSON.parse(localStorage.getItem('carrito') || '[]')
-
   if (!authStore.token) return
 
   try {
-    const res = await fetch('http://localhost:8080/book-shop/api/carrito/ver', {
+    const data = await authStore.apiFetch('/carrito/ver', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ carrito: carritoActual }),
     })
-
-    if (!res.ok) return
-
-    const data = await res.json()
-    if (data.carrito && data.carrito.length > 0) {
-      totalItems.value = data.carrito.reduce((acc: number, item: any) => acc + item.cantidad, 0)
-    } else {
-      totalItems.value = 0
-    }
-  } catch (err) {
-    console.error('Error al actualizar contador:', err)
+    totalItems.value = data.carrito?.reduce((acc: number, item: any) => acc + item.cantidad, 0) ?? 0
+  } catch {
+    totalItems.value = 0
   }
 }
 
@@ -79,41 +69,3 @@ watch(
   },
 )
 </script>
-<style scoped>
-nav {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 25px;
-}
-
-nav a {
-  text-decoration: none;
-  color: lightgrey;
-}
-
-.badge {
-  background-color: #ff5722;
-  border-radius: 10px;
-  padding: 2px 6px;
-  font-size: 12px;
-  margin-left: 4px;
-}
-
-@media (max-width: 768px) {
-  nav {
-    flex-direction: column;
-  }
-}
-
-@media (max-width: 480px) {
-  nav {
-    gap: 15px;
-  }
-
-  nav a {
-    font-size: 14px;
-  }
-}
-</style>

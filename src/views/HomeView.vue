@@ -26,10 +26,10 @@
       <button class="slider-btn prev" @click="prevSlide">&#10094;</button>
       <div class="slider-content" ref="sliderContent">
         <div v-for="libro in tiendaStore.topVentas" :key="libro.id" class="slider-card">
-          <img :src="`src/assets/img/libros/${libro.imagen}`" :alt="libro.titulo" />
+          <img :src="`/media/libros/${libro.imagen}`" :alt="libro.titulo" />
           <h3>{{ libro.titulo }}</h3>
           <p class="precio">{{ libro.precio }}€</p>
-          <router-link :to="`/tienda?id=${libro.id}`" class="btn-ver">Ver más</router-link>
+          <router-link :to="`/tienda/${libro.id}`" class="btn-ver">Ver más</router-link>
         </div>
       </div>
       <button class="slider-btn next" @click="nextSlide">&#10095;</button>
@@ -59,24 +59,25 @@
   <h2 class="titulo-seccion">ESTA ES NUESTRA SECCIÓN DE NOVEDADES</h2>
   <section class="contenedor-grid">
     <div v-for="libro in tiendaStore.novedades" :key="libro.id" class="producto-card">
-      <img :src="`src/assets/img/libros/${libro.imagen}`" :alt="libro.titulo" />
+      <img :src="`/media/libros/${libro.imagen}`" :alt="libro.titulo" />
       <h3>{{ libro.titulo }}</h3>
       <p class="precio">{{ libro.precio }}€</p>
-      <router-link :to="`/tienda?id=${libro.id}`" class="btn-ver">Ver más</router-link>
+      <router-link :to="`/tienda/${libro.id}`" class="btn-ver">Ver más</router-link>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import { useTiendaStore } from '@/stores/home'
+import { onMounted, ref } from 'vue'
+import { useShopStore } from '@/stores/shop'
 
-const tiendaStore = useTiendaStore()
+const tiendaStore = useShopStore()
+const sliderContent = ref<HTMLElement | null>(null)
 let posicion = 0
 const cardWidth = 220
 
 function nextSlide() {
-  const contenedor = document.querySelector('.slider-content') as HTMLElement | null
+  const contenedor = sliderContent.value
   const padre = contenedor?.parentElement as HTMLElement | null
   if (!contenedor || !padre) return
 
@@ -86,7 +87,7 @@ function nextSlide() {
 }
 
 function prevSlide() {
-  const contenedor = document.querySelector('.slider-content') as HTMLElement | null
+  const contenedor = sliderContent.value
   if (!contenedor) return
 
   posicion = Math.max(posicion - cardWidth, 0)
@@ -100,11 +101,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Hero */
-.hero {
-  margin-bottom: 50px;
-}
-
 /* Slider */
 .slider-container {
   width: 90%;
@@ -182,84 +178,5 @@ onMounted(() => {
   font-size: 14px;
   color: #333;
   margin-bottom: 8px;
-}
-
-/* Grid de productos */
-.contenedor-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 30px;
-  margin-top: 30px;
-}
-
-.producto-card {
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  padding: 20px;
-  text-align: center;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: box-shadow 0.3s ease;
-}
-
-.producto-card:hover {
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.producto-card img {
-  width: 100%;
-  height: auto;
-  max-height: 350px;
-  object-fit: contain;
-  margin-bottom: 15px;
-}
-
-.producto-card h3 {
-  font-size: 18px;
-  color: #333;
-  margin-bottom: 10px;
-}
-
-.precio {
-  font-weight: bold;
-  color: #e67e22;
-  margin-bottom: 15px;
-}
-
-.btn-ver {
-  display: block;
-  background-color: #333;
-  color: white;
-  padding: 10px;
-  text-decoration: none;
-  border-radius: 4px;
-  font-size: 14px;
-}
-
-.btn-ver:hover {
-  background-color: #555;
-}
-
-.btn-productos {
-  display: inline-block;
-  padding: 15px 35px;
-  background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-  text-transform: uppercase;
-  border-radius: 20px;
-  box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
-  transition: all 0.3s ease;
-  border: none;
-  cursor: pointer;
-}
-
-.btn-productos:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(46, 204, 113, 0.5);
-  background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
 }
 </style>

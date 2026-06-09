@@ -27,12 +27,21 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function apiFetch(url: string, options: RequestInit = {}) {
     const headers: Record<string, string> = {
-      'Content-Type': 'application/json',
       ...(options.headers as Record<string, string>),
     }
-    if (token.value) headers['Authorization'] = `Bearer ${token.value}`
 
-    const response = await fetch(`${BASE_URL}${url}`, { ...options, headers })
+    if (!(options.body instanceof FormData)) {
+      headers['Content-Type'] = 'application/json'
+    }
+
+    if (token.value) {
+      headers['Authorization'] = `Bearer ${token.value}`
+    }
+
+    const response = await fetch(`${BASE_URL}${url}`, {
+      ...options,
+      headers,
+    })
 
     if (response.status === 401) {
       limpiarSesionLocal()
@@ -40,7 +49,13 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     if (!response.ok) {
-      const error = await response.json()
+      const texto = await response.text()
+      let error
+      try {
+        error = JSON.parse(texto)
+      } catch {
+        throw new Error(`Error HTTP ${response.status}: ${texto}`)
+      }
       throw new Error(error.mensaje || 'Error del servidor')
     }
 
@@ -48,10 +63,18 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function login(usuario: string, password: string) {
-    const data = await apiFetch('/auth/login', {
+    const response = await fetch(`${BASE_URL}/auth/login`, {
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ usuario, password }),
     })
+
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(error.mensaje || 'Credenciales incorrectas')
+    }
+
+    const data = await response.json()
     token.value = data.token
     rol.value = data.rol
     nombre.value = data.nombre

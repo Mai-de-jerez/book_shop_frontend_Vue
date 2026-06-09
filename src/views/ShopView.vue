@@ -13,9 +13,9 @@
       <p v-if="shopStore.cargando" class="cargando">Cargando libros... 🦎</p>
       <p v-else-if="shopStore.libros.length === 0">No hay libros disponibles.</p>
       <div v-else v-for="libro in shopStore.libros" :key="libro.id" class="producto-card">
-        <img :src="`src/assets/img/libros/${libro.imagen}`" :alt="`Portada de ${libro.titulo}`" />
+        <img :src="`/media/libros/${libro.imagen}`" :alt="`Portada de ${libro.titulo}`" />
         <h3>{{ libro.titulo }}</h3>
-        <p class="precio">{{ libro.precio.toFixed(2) }}€</p>
+        <p class="precio">{{ libro.precio?.toFixed(2) ?? '0.00' }}€</p>
         <router-link :to="`/tienda/${libro.id}`" class="btn-ver">Ver más</router-link>
       </div>
     </section>

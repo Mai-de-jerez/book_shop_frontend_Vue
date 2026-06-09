@@ -1,23 +1,32 @@
 <template>
   <main id="contenedor-principal">
-    <h2 class="titulo-seccion-form">INICIAR SESIÓN</h2>
-
-    <!-- Mensajes de error/éxito -->
-    <div id="mensaje-container"></div>
+    <h2 class="titulo-seccion-login">INICIAR SESIÓN</h2>
 
     <section class="form-login">
-      <form @submit.prevent="handleSubmit">
+      <form @submit="onSubmit">
         <div class="form-content">
           <label for="usuario">Usuario:</label>
-          <input type="text" id="usuario" v-model="usuario" placeholder="Tu usuario" required />
-          <span id="error-usuario" class="mensaje-error-campo">{{ errores.usuario }}</span>
+          <input
+            type="text"
+            id="usuario"
+            v-model="usuario"
+            placeholder="Tu usuario"
+            :class="{ 'input-error': errorUsuario }"
+          />
+          <span class="mensaje-error-campo">{{ errorUsuario }}</span>
 
           <label for="password">Contraseña:</label>
-          <input type="password" id="password" v-model="password" placeholder="Tu clave" required />
-          <span id="error-password" class="mensaje-error-campo">{{ errores.password }}</span>
+          <input
+            type="password"
+            id="password"
+            v-model="password"
+            placeholder="Tu clave"
+            :class="{ 'input-error': errorPassword }"
+          />
+          <span class="mensaje-error-campo">{{ errorPassword }}</span>
 
           <div class="link-registro">
-            <p>¿No tienes cuenta? <router-link to="/registro">Regístrate</router-link></p>
+            <p>¿No tienes cuenta? <router-link to="/auth/registro">Regístrate</router-link></p>
           </div>
         </div>
 
@@ -40,107 +49,66 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { useForm, useField } from 'vee-validate'
+import * as yup from 'yup'
 import { useAuthStore } from '@/stores/auth'
+import { useNotificacion } from '@/composables/useNotificacion'
 
 const router = useRouter()
 const authStore = useAuthStore()
-
-const usuario = ref('')
-const password = ref('')
+const notificacion = useNotificacion()
 const cargando = ref(false)
-const errores = ref({ usuario: '', password: '' })
 
-// Función para mostrar mensajes (simula mostrarMensaje del HTML)
-function mostrarMensaje(texto: string, tipo: 'error' | 'success') {
-  const container = document.getElementById('mensaje-container')
-  if (!container) return
+const { handleSubmit } = useForm({
+  validationSchema: yup.object({
+    usuario: yup
+      .string()
+      .required('El usuario es obligatorio')
+      .min(3, 'Mínimo 3 caracteres')
+      .max(100, 'Máximo 100 caracteres'),
+    password: yup
+      .string()
+      .required('La contraseña es obligatoria')
+      .min(6, 'Mínimo 6 caracteres')
+      .matches(/(?=.*[A-Z])/, 'Debe contener al menos una mayúscula')
+      .matches(/(?=.*\d)/, 'Debe contener al menos un número'),
+  }),
+})
 
-  const div = document.createElement('div')
-  div.className = `mensaje-alerta mensaje-${tipo}`
-  div.textContent = texto
-  container.appendChild(div)
+const { value: usuario, errorMessage: errorUsuario } = useField<string>('usuario')
+const { value: password, errorMessage: errorPassword } = useField<string>('password')
 
-  setTimeout(() => div.remove(), 4000)
-}
-
-// Validación del formulario (simula validarFormularioLogin)
-function validarFormulario(): boolean {
-  let valido = true
-  errores.value = { usuario: '', password: '' }
-
-  if (!usuario.value.trim()) {
-    errores.value.usuario = 'El usuario es obligatorio'
-    valido = false
-  }
-  if (!password.value.trim()) {
-    errores.value.password = 'La contraseña es obligatoria'
-    valido = false
-  }
-  return valido
-}
-
-// Manejar errores de URL (simula la lógica de errores/estados)
-function manejarParametrosURL() {
-  const params = new URLSearchParams(window.location.search)
-  const errorParam = params.get('error')
-  const statusParam =
-    params.get('status') ||
-    params.get('logout') ||
-    (params.get('registro') === 'ok' ? 'registro' : null)
-
-  const erroresMap: Record<string, string> = {
-    '1': '❌ Usuario o contraseña incorrectos',
-    '500': '⚠️ Error del servidor. Inténtalo de nuevo.',
-    session: '🔒 Debes iniciar sesión para acceder',
-  }
-
-  const estadosMap: Record<string, string> = {
-    email_sent: '📧 Te hemos enviado un correo para recuperar tu clave.',
-    password_updated: '✅ ¡Contraseña actualizada! Ya puedes entrar.',
-    ok: '✅ Sesión cerrada correctamente',
-    registro: '🎉 ¡Registro completado! Ya puedes entrar.',
-  }
-
-  if (errorParam && erroresMap[errorParam]) {
-    mostrarMensaje(erroresMap[errorParam], 'error')
-  } else if (statusParam && estadosMap[statusParam]) {
-    mostrarMensaje(estadosMap[statusParam], 'success')
-  }
-
-  // Limpiar URL
-  window.history.replaceState({}, document.title, window.location.pathname)
-}
-
-async function handleSubmit() {
-  if (!validarFormulario()) return
-
+const onSubmit = handleSubmit(async (valores) => {
   cargando.value = true
-
   try {
-    await authStore.login(usuario.value, password.value)
-
-    if (authStore.esAdmin) {
-      router.push('/admin')
-    } else {
-      router.push('/')
-    }
+    await authStore.login(valores.usuario, valores.password)
+    router.push(authStore.esAdmin ? '/admin' : '/')
   } catch (error: any) {
-    mostrarMensaje(error.message || 'Credenciales incorrectas', 'error')
+    notificacion.error(error.message || 'Credenciales incorrectas')
   } finally {
     cargando.value = false
   }
-}
+})
 
 onMounted(() => {
-  manejarParametrosURL()
+  const state = history.state
+  if (state?.mensaje) {
+    notificacion[state.tipo as 'exito' | 'error' | 'info'](state.mensaje)
+  }
 })
 </script>
 
 <style scoped>
-/* Estilos específicos para el login */
 main {
   background-color: #333;
+  color: #474747;
 }
+
+.titulo-seccion-login {
+  text-align: center;
+  color: white;
+}
+
 .form-login {
   width: 90%;
   max-width: 350px;
@@ -166,7 +134,6 @@ main {
 
 .link-login {
   display: block;
-  text-align: right;
   font-size: 0.9rem;
   color: #666;
   text-decoration: none;

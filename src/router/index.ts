@@ -16,6 +16,16 @@ const router = createRouter({
           name: 'tienda-detalle',
           component: () => import('@/views/ShopDetailView.vue'),
         },
+        {
+          path: 'perfil/ver',
+          name: 'perfil',
+          component: () => import('@/views/PerfilView.vue'),
+        },
+        {
+          path: 'perfil/editar',
+          name: 'editar-perfil',
+          component: () => import('@/views/EditarPerfilView.vue'),
+        },
       ],
     },
     ...authRoutes,

@@ -11,12 +11,21 @@ importers:
       pinia:
         specifier: ^3.0.4
         version: 3.0.4(typescript@6.0.3)(vue@3.5.35(typescript@6.0.3))
+      vee-validate:
+        specifier: ^4.15.1
+        version: 4.15.1(vue@3.5.35(typescript@6.0.3))
       vue:
         specifier: ^3.5.32
         version: 3.5.35(typescript@6.0.3)
       vue-router:
         specifier: ^5.0.4
         version: 5.1.0(@vue/compiler-sfc@3.5.35)(pinia@3.0.4(typescript@6.0.3)(vue@3.5.35(typescript@6.0.3)))(vite@8.0.16(@types/node@24.13.1)(yaml@2.9.0))(vue@3.5.35(typescript@6.0.3))
+      vue-toastification:
+        specifier: 2.0.0-rc.5
+        version: 2.0.0-rc.5(vue@3.5.35(typescript@6.0.3))
+      yup:
+        specifier: ^1.7.1
+        version: 1.7.1
     devDependencies:
       '@tsconfig/node24':
         specifier: ^24.0.4
@@ -845,6 +854,9 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
 
+  property-expr@2.0.6:
+    resolution: {integrity: sha512-SVtmxhRE/CGkn3eZY1T6pC8Nln6Fr/lu1mKSgRud0eC73whjGfoAogbn78LkD8aFL0zz3bAFerKSnOl7NlErBA==}
+
   quansync@0.2.11:
     resolution: {integrity: sha512-AifT7QEbW9Nri4tAwR5M/uzpBuqfZf+zwaEM/QkzEjj7NBuFD2rBuy0K3dE+8wltbezDV7JMA0WfnCPYRSYbXA==}
 
@@ -903,9 +915,15 @@ packages:
     resolution: {integrity: sha512-H+ue8Zo4vJmV2nRjpx86P35lzwDT3nItnIsocgumgr0hHMQ+ZGq5vrERg9kJBo5AWGmxZDhzDo+WVIJqkB0cGA==}
     engines: {node: '>=16'}
 
+  tiny-case@1.0.3:
+    resolution: {integrity: sha512-Eet/eeMhkO6TX8mnUteS9zgPbUMQa4I6Kkp5ORiBD5476/m+PIRiumP5tmh5ioJpH7k51Kehawy2UDfsnxxY8Q==}
+
   tinyglobby@0.2.17:
     resolution: {integrity: sha512-wXR/dYpcqKmfWpEdZjiKJOwCNFndD0DMnrW/cYjVGttEkBfVgcLFHoNrlj47mjOVic9yyNu65alsgF4NQyTa2g==}
     engines: {node: '>=12.0.0'}
+
+  toposort@2.0.2:
+    resolution: {integrity: sha512-0a5EOkAUp8D4moMi2W8ZF8jcga7BgZd91O/yabJCFY8az+XSzeGyTKs0Aoo897iV1Nj6guFq8orWDS96z91oGg==}
 
   totalist@3.0.1:
     resolution: {integrity: sha512-sf4i37nQ2LBx4m3wB74y+ubopq6W/dIzXg0FDGjsYnZHVa1Da8FH853wlL2gtUhg+xJXjfk3kUZS3BRoQeoQBQ==}
@@ -913,6 +931,14 @@ packages:
 
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
+
+  type-fest@2.19.0:
+    resolution: {integrity: sha512-RAH822pAdBgcNMAfWnCBU3CFZcfZ/i1eZjwFU/dsLKumyuuP3niueg2UAukXYF0E2AAoc82ZSSf9J0WQBinzHA==}
+    engines: {node: '>=12.20'}
+
+  type-fest@4.41.0:
+    resolution: {integrity: sha512-TeTSQ6H5YHvpqVwBRcnLDCBnDOHWYu7IvGbHT6N8AOymcr9PJGjc1GTtiWZTYg0NCgYwvnYWEkVChQAr9bjfwA==}
+    engines: {node: '>=16'}
 
   typescript@6.0.3:
     resolution: {integrity: sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw==}
@@ -938,6 +964,11 @@ packages:
     hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
+
+  vee-validate@4.15.1:
+    resolution: {integrity: sha512-DkFsiTwEKau8VIxyZBGdO6tOudD+QoUBPuHj3e6QFqmbfCRj1ArmYWue9lEp6jLSWBIw4XPlDLjFIZNLdRAMSg==}
+    peerDependencies:
+      vue: ^3.4.26
 
   vite-dev-rpc@2.0.0:
     resolution: {integrity: sha512-yKwbTwdHKSD2k/aGqyWpPHepo45OQc8lH3/6IfT4ZqeKE26ooKvi4WIEKzqWav8v+9Is8u1k8q54hvOmqASazA==}
@@ -1034,6 +1065,11 @@ packages:
       vite:
         optional: true
 
+  vue-toastification@2.0.0-rc.5:
+    resolution: {integrity: sha512-q73e5jy6gucEO/U+P48hqX+/qyXDozAGmaGgLFm5tXX4wJBcVsnGp4e/iJqlm9xzHETYOilUuwOUje2Qg1JdwA==}
+    peerDependencies:
+      vue: ^3.0.2
+
   vue-tsc@3.3.3:
     resolution: {integrity: sha512-SWUEG7YRUeDJHT7Xsuhf02elYX2gxPzzAII7OxDAh4KNOr4QHQ0Lls0YfnaO5GNd560CwVa2HTfdqmA5MqvRqQ==}
     hasBin: true
@@ -1072,6 +1108,9 @@ packages:
     resolution: {integrity: sha512-2AvhNX3mb8zd6Zy7INTtSpl1F15HW6Wnqj0srWlkKLcpYl/gMIMJiyuGq2KeI2YFxUPjdlB+3Lc10seMLtL4cA==}
     engines: {node: '>= 14.6'}
     hasBin: true
+
+  yup@1.7.1:
+    resolution: {integrity: sha512-GKHFX2nXul2/4Dtfxhozv701jLQHdf6J34YDh2cEkpqoo8le5Mg6/LrdseVLrFarmFygZTlfIhHx/QKfb/QWXw==}
 
 snapshots:
 
@@ -1847,6 +1886,8 @@ snapshots:
 
   prettier@3.8.3: {}
 
+  property-expr@2.0.6: {}
+
   quansync@0.2.11: {}
 
   read-package-json-fast@4.0.0:
@@ -1907,15 +1948,23 @@ snapshots:
     dependencies:
       copy-anything: 4.0.5
 
+  tiny-case@1.0.3: {}
+
   tinyglobby@0.2.17:
     dependencies:
       fdir: 6.5.0(picomatch@4.0.4)
       picomatch: 4.0.4
 
+  toposort@2.0.2: {}
+
   totalist@3.0.1: {}
 
   tslib@2.8.1:
     optional: true
+
+  type-fest@2.19.0: {}
+
+  type-fest@4.41.0: {}
 
   typescript@6.0.3: {}
 
@@ -1939,6 +1988,12 @@ snapshots:
       browserslist: 4.28.2
       escalade: 3.2.0
       picocolors: 1.1.1
+
+  vee-validate@4.15.1(vue@3.5.35(typescript@6.0.3)):
+    dependencies:
+      '@vue/devtools-api': 7.7.9
+      type-fest: 4.41.0
+      vue: 3.5.35(typescript@6.0.3)
 
   vite-dev-rpc@2.0.0(vite@8.0.16(@types/node@24.13.1)(yaml@2.9.0)):
     dependencies:
@@ -2031,6 +2086,10 @@ snapshots:
       pinia: 3.0.4(typescript@6.0.3)(vue@3.5.35(typescript@6.0.3))
       vite: 8.0.16(@types/node@24.13.1)(yaml@2.9.0)
 
+  vue-toastification@2.0.0-rc.5(vue@3.5.35(typescript@6.0.3)):
+    dependencies:
+      vue: 3.5.35(typescript@6.0.3)
+
   vue-tsc@3.3.3(typescript@6.0.3):
     dependencies:
       '@volar/typescript': 2.4.28
@@ -2065,3 +2124,10 @@ snapshots:
   yallist@3.1.1: {}
 
   yaml@2.9.0: {}
+
+  yup@1.7.1:
+    dependencies:
+      property-expr: 2.0.6
+      tiny-case: 1.0.3
+      toposort: 2.0.2
+      type-fest: 2.19.0
