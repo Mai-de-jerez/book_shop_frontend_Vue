@@ -21,16 +21,18 @@ export interface Pedido {
 
 export interface PedidoDetalle {
   id: number
+  nombreUsuario: string
   fecha: number
   total: number
   direccion: string
   metodoPago: string
   estado: string
   descripcion: string | null
-  lineas?: Array<{
-    libroId: number
-    titulo: string
+  detalles: Array<{
+    tituloLibro: string
+    autorLibro: string
+    imagen: string
     cantidad: number
-    precioUnitario: number
+    precioVenta: number
   }>
 }

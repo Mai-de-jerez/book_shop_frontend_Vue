@@ -26,6 +26,13 @@ const router = createRouter({
           name: 'editar-perfil',
           component: () => import('@/views/EditarPerfilView.vue'),
         },
+        {
+          path: 'perfil/pedidos',
+          name: 'mis-pedidos',
+          component: () => import('@/views/MisPedidosView.vue'),
+        },
+        { path: 'carrito', component: () => import('@/views/CartView.vue') },
+        { path: 'checkout', name: 'checkout', component: () => import('@/views/CheckoutView.vue') },
       ],
     },
     ...authRoutes,

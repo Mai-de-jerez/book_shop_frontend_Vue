@@ -31,9 +31,9 @@
         </p>
 
         <div class="form-buttons">
-          <RouterLink to="#" class="btn-mis-pedidos">
+          <button type="button" class="btn-mis-pedidos" @click="irAMisPedidos">
             <span>MIS PEDIDOS</span>
-          </RouterLink>
+          </button>
 
           <button type="button" class="btn-comprar" @click="irAEditar">
             <span>EDITAR PERFIL</span>
@@ -89,4 +89,9 @@ onMounted(async () => {
     toast.error('Error al obtener los datos del servidor.')
   }
 })
+
+function irAMisPedidos() {
+  toast.info('Abriendo mis pedidos...')
+  router.push('/perfil/pedidos')
+}
 </script>

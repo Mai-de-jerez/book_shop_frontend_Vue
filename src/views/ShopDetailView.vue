@@ -50,14 +50,15 @@ import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useShopStore } from '@/stores/shop'
 import { useAuthStore } from '@/stores/auth'
+import { useCartStore } from '@/stores/cart'
 import { useNotificacion } from '@/composables/useNotificacion'
 
 const route = useRoute()
 const router = useRouter()
 const shopStore = useShopStore()
 const authStore = useAuthStore()
+const cartStore = useCartStore()
 const notificacion = useNotificacion()
-
 const cantidad = ref(1)
 
 async function añadirAlCarrito() {
@@ -76,17 +77,8 @@ async function añadirAlCarrito() {
   }
 
   try {
-    const carritoActual = JSON.parse(localStorage.getItem('carrito') || '[]')
-    const data = await authStore.apiFetch('/carrito/add', {
-      method: 'POST',
-      body: JSON.stringify({
-        carrito: carritoActual,
-        id_libro: libro.id,
-        cantidad: cantidad.value,
-      }),
-    })
+    await cartStore.agregar(libro.id, cantidad.value)
 
-    localStorage.setItem('carrito', JSON.stringify(data.carrito))
     notificacion.exito(`✅ ${cantidad.value} x "${libro.titulo}" añadido`)
   } catch (error: any) {
     notificacion.error(error.message || 'Error al añadir al carrito')

@@ -25,47 +25,24 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { onMounted, computed } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+import { useCartStore } from '@/stores/cart'
 import { useRouter } from 'vue-router'
 
 const authStore = useAuthStore()
+const cartStore = useCartStore()
 const router = useRouter()
-const totalItems = ref(0)
+const totalItems = computed(() => cartStore.totalItems)
 
-async function actualizarContadorCarrito() {
-  const carritoActual = JSON.parse(localStorage.getItem('carrito') || '[]')
-  if (!authStore.token) return
-
-  try {
-    const data = await authStore.apiFetch('/carrito/ver', {
-      method: 'POST',
-      body: JSON.stringify({ carrito: carritoActual }),
-    })
-    totalItems.value = data.carrito?.reduce((acc: number, item: any) => acc + item.cantidad, 0) ?? 0
-  } catch {
-    totalItems.value = 0
+onMounted(() => {
+  if (authStore.estaLogueado && authStore.esCliente) {
+    cartStore.cargar()
   }
-}
+})
 
 function logout() {
   authStore.logout()
   router.push('/auth/login')
 }
-
-onMounted(() => {
-  if (authStore.estaLogueado && authStore.esCliente) {
-    actualizarContadorCarrito()
-  }
-})
-
-// Actualizar cuando cambie el carrito (por si se añaden productos)
-watch(
-  () => localStorage.getItem('carrito'),
-  () => {
-    if (authStore.estaLogueado && authStore.esCliente) {
-      actualizarContadorCarrito()
-    }
-  },
-)
 </script>
