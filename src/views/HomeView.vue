@@ -21,20 +21,8 @@
 
   <!-- Top ventas (slider) -->
   <h2 class="titulo-seccion">TOP VENTAS: DESTACADOS DE LA SEMANA</h2>
-  <section class="slider-container">
-    <div class="slider-wrapper">
-      <button class="slider-btn prev" @click="prevSlide">&#10094;</button>
-      <div class="slider-content" ref="sliderContent">
-        <div v-for="libro in tiendaStore.topVentas" :key="libro.id" class="slider-card">
-          <img :src="`/media/libros/${libro.imagen}`" :alt="libro.titulo" />
-          <h3>{{ libro.titulo }}</h3>
-          <p class="precio">{{ libro.precio }}€</p>
-          <router-link :to="`/tienda/${libro.id}`" class="btn-ver">Ver más</router-link>
-        </div>
-      </div>
-      <button class="slider-btn next" @click="nextSlide">&#10095;</button>
-    </div>
-  </section>
+
+  <BookSlider :libros="tiendaStore.topVentas" />
 
   <!-- Segundo hero -->
   <section class="hero">
@@ -58,125 +46,20 @@
   <!-- Novedades -->
   <h2 class="titulo-seccion">ESTA ES NUESTRA SECCIÓN DE NOVEDADES</h2>
   <section class="contenedor-grid">
-    <div v-for="libro in tiendaStore.novedades" :key="libro.id" class="producto-card">
-      <img :src="`/media/libros/${libro.imagen}`" :alt="libro.titulo" />
-      <h3>{{ libro.titulo }}</h3>
-      <p class="precio">{{ libro.precio }}€</p>
-      <router-link :to="`/tienda/${libro.id}`" class="btn-ver">Ver más</router-link>
-    </div>
+    <BookCard v-for="libro in tiendaStore.novedades" :key="libro.id" :libro="libro" />
   </section>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted } from 'vue'
 import { useShopStore } from '@/stores/shop'
+import BookCard from '@/components/BookCard.vue'
+import BookSlider from '@/components/BookSlider.vue'
 
 const tiendaStore = useShopStore()
-const sliderContent = ref<HTMLElement | null>(null)
-let posicion = 0
-const cardWidth = 220
-
-function nextSlide() {
-  const contenedor = sliderContent.value
-  const padre = contenedor?.parentElement as HTMLElement | null
-  if (!contenedor || !padre) return
-
-  const maxPosicion = contenedor.scrollWidth - padre.offsetWidth
-  posicion = Math.min(posicion + cardWidth, maxPosicion)
-  contenedor.style.transform = `translateX(-${posicion}px)`
-}
-
-function prevSlide() {
-  const contenedor = sliderContent.value
-  if (!contenedor) return
-
-  posicion = Math.max(posicion - cardWidth, 0)
-  contenedor.style.transform = `translateX(-${posicion}px)`
-}
 
 onMounted(() => {
   tiendaStore.cargarTopVentas()
   tiendaStore.cargarNovedades()
 })
 </script>
-
-<style scoped>
-/* Slider */
-.slider-container {
-  width: 90%;
-  max-width: 1200px;
-  margin: 0 auto 40px;
-  overflow: hidden;
-  position: relative;
-}
-
-.slider-wrapper {
-  display: flex;
-  align-items: center;
-  position: relative;
-}
-
-.slider-content {
-  display: flex;
-  gap: 20px;
-  width: 100%;
-  justify-content: flex-start;
-  flex-wrap: nowrap;
-  overflow: visible;
-  transition: transform 0.3s ease;
-}
-
-.slider-btn {
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
-  border: none;
-  padding: 15px;
-  cursor: pointer;
-  position: absolute;
-  z-index: 10;
-  border-radius: 50%;
-  font-size: 1.2rem;
-}
-
-.slider-btn:hover {
-  background: #800080;
-}
-
-.prev {
-  left: -10px;
-}
-
-.next {
-  right: -10px;
-}
-
-.slider-card {
-  flex: 0 0 200px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  padding: 15px;
-  text-align: center;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: box-shadow 0.3s ease;
-}
-
-.slider-card:hover {
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.slider-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: contain;
-  margin-bottom: 10px;
-}
-
-.slider-card h3 {
-  font-size: 14px;
-  color: #333;
-  margin-bottom: 8px;
-}
-</style>

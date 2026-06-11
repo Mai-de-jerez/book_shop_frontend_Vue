@@ -46,3 +46,52 @@ function logout() {
   router.push('/auth/login')
 }
 </script>
+
+<style scoped>
+nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 25px;
+}
+
+nav a {
+  text-decoration: none;
+  color: lightgrey;
+}
+
+nav a:hover {
+  color: #3ca243;
+}
+
+nav a.router-link-exact-active {
+  color: #3ca243;
+}
+
+.badge {
+  background-color: #ff5722;
+  border-radius: 10px;
+  padding: 2px 6px;
+  font-size: 12px;
+  margin-left: 4px;
+}
+
+/* --- ESTILOS PARA TABLETS Y MÓVILES --- */
+@media (max-width: 768px) {
+  nav {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  nav {
+    gap: 15px;
+  }
+
+  nav a {
+    font-size: 14px;
+  }
+}
+</style>

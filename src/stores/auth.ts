@@ -17,7 +17,10 @@ export const useAuthStore = defineStore('auth', () => {
   const esCliente = computed(() => rol.value === 3)
 
   function limpiarSesionLocal() {
-    sessionStorage.clear()
+    sessionStorage.removeItem('token')
+    sessionStorage.removeItem('rol')
+    sessionStorage.removeItem('nombre')
+    sessionStorage.removeItem('userId')
     token.value = null
     rol.value = null
     nombre.value = null
@@ -83,6 +86,14 @@ export const useAuthStore = defineStore('auth', () => {
     sessionStorage.setItem('rol', String(data.rol))
     sessionStorage.setItem('nombre', data.nombre)
     sessionStorage.setItem('userId', String(data.id))
+    // cargar el carrito del nuevo usuario
+    const { useCartStore } = await import('./cart')
+    const cartStore = useCartStore()
+    cartStore.cargarDesdeStorage()
+    // resetear la tienda para evitar mostrar datos del usuario anterior
+    const { useShopStore } = await import('./shop')
+    const shopStore = useShopStore()
+    shopStore.reset()
   }
 
   function logout() {

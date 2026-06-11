@@ -4,15 +4,23 @@ import type { CartResponse, DetallePedido } from '@/interfaces/cart-models'
 import { useAuthStore } from './auth'
 
 export const useCartStore = defineStore('cart', () => {
-  const carrito = ref<DetallePedido[]>(JSON.parse(sessionStorage.getItem('carrito') || '[]'))
+  const authStore = useAuthStore()
+  //const carrito = ref<DetallePedido[]>(JSON.parse(sessionStorage.getItem('carrito') || '[]'))
+
+  const carrito = ref<DetallePedido[]>(
+    JSON.parse(sessionStorage.getItem(`carrito_${authStore.userId}`) || '[]'),
+  )
+
   const total = computed(() =>
     carrito.value.reduce((acc, item) => acc + item.cantidad * item.precioVenta, 0),
   )
 
-  const authStore = useAuthStore()
+  // function persistir() {
+  //   sessionStorage.setItem('carrito', JSON.stringify(carrito.value))
+  // }
 
   function persistir() {
-    sessionStorage.setItem('carrito', JSON.stringify(carrito.value))
+    sessionStorage.setItem(`carrito_${authStore.userId}`, JSON.stringify(carrito.value))
   }
 
   async function sincronizarCarrito(path: string, payload: any = {}) {
@@ -49,7 +57,11 @@ export const useCartStore = defineStore('cart', () => {
     await sincronizarCarrito('/ver')
   }
 
+  function cargarDesdeStorage() {
+    carrito.value = JSON.parse(sessionStorage.getItem(`carrito_${authStore.userId}`) || '[]')
+  }
+
   const totalItems = computed(() => carrito.value.reduce((acc, item) => acc + item.cantidad, 0))
 
-  return { carrito, total, totalItems, agregar, eliminar, actualizar, cargar }
+  return { carrito, total, totalItems, agregar, eliminar, actualizar, cargar, cargarDesdeStorage }
 })

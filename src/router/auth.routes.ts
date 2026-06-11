@@ -15,6 +15,16 @@ export const authRoutes: RouteRecordRaw[] = [
         name: 'registro',
         component: () => import('../views/auth/RegistroView.vue'),
       },
+      {
+        path: 'recuperar',
+        name: 'recuperar',
+        component: () => import('../views/auth/RecuperarPasswordView.vue'),
+      },
+      {
+        path: 'recuperar/confirmar',
+        name: 'nueva-password',
+        component: () => import('../views/auth/NuevaPasswordView.vue'),
+      },
     ],
   },
 ]

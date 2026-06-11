@@ -10,7 +10,7 @@
         </div>
         <h1>Llibrería La Iguana</h1>
       </div>
-      <NavView />
+      <NavBar />
     </header>
 
     <main id="contenedor-principal">
@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import NavView from '@/components/NavView.vue'
+import NavBar from '@/components/NavBar.vue'
 </script>
 
 <style scoped>

@@ -14,18 +14,20 @@ export const useShopStore = defineStore('shop', () => {
   const topVentas = ref<any[]>([])
   const novedades = ref<any[]>([])
 
-  // Paginación y carga
+  // Paginación, búsqueda y carga
   const totalPaginas = ref(0)
   const paginaActual = ref(1)
   const cargando = ref(false)
+  const busqueda = ref('')
 
   // --- LLAMADAS A LA API ---
   // GET /api/tienda (Listado para la tienda con búsqueda y paginación)
-  async function cargarLibros(busqueda?: string, pagina = 1, porPagina = 8) {
+  async function cargarLibros(nuevaBusqueda?: string, pagina = 1, porPagina = 8) {
+    if (nuevaBusqueda !== undefined) busqueda.value = nuevaBusqueda
     cargando.value = true
     try {
       const params = new URLSearchParams()
-      if (busqueda) params.set('busqueda', busqueda)
+      if (busqueda.value) params.set('busqueda', busqueda.value)
       params.set('pagina', String(pagina))
       params.set('porPagina', String(porPagina))
 
@@ -35,6 +37,7 @@ export const useShopStore = defineStore('shop', () => {
       paginaActual.value = data.pagina
     } catch (error) {
       console.error('Error cargando libros:', error)
+      throw error
     } finally {
       cargando.value = false
     }
@@ -47,6 +50,7 @@ export const useShopStore = defineStore('shop', () => {
       topVentas.value = await authStore.apiFetch('/tienda/top')
     } catch (error) {
       console.error('Error cargando top ventas:', error)
+      throw error
     } finally {
       cargando.value = false
     }
@@ -59,6 +63,7 @@ export const useShopStore = defineStore('shop', () => {
       novedades.value = await authStore.apiFetch('/tienda/ultimos')
     } catch (error) {
       console.error('Error cargando novedades:', error)
+      throw error
     } finally {
       cargando.value = false
     }
@@ -71,9 +76,17 @@ export const useShopStore = defineStore('shop', () => {
       libroDetalle.value = await authStore.apiFetch(`/tienda/${id}`)
     } catch (error) {
       console.error('Error cargando detalle:', error)
+      throw error
     } finally {
       cargando.value = false
     }
+  }
+
+  function reset() {
+    libros.value = []
+    busqueda.value = ''
+    paginaActual.value = 1
+    totalPaginas.value = 0
   }
 
   return {
@@ -84,10 +97,12 @@ export const useShopStore = defineStore('shop', () => {
     novedades,
     totalPaginas,
     paginaActual,
+    busqueda,
     cargando,
     cargarLibros,
     cargarTopVentas,
     cargarNovedades,
     cargarDetalle,
+    reset,
   }
 })

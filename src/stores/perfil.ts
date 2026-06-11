@@ -17,6 +17,9 @@ export const useClientStore = defineStore('client', () => {
     cargando.value = true
     try {
       perfil.value = (await authStore.apiFetch('/perfil/ver')) as Usuario
+    } catch (error) {
+      console.error('Error cargando perfil:', error)
+      throw error
     } finally {
       cargando.value = false
     }
@@ -35,6 +38,9 @@ export const useClientStore = defineStore('client', () => {
         authStore.nombre = data.usuario.nombre
         sessionStorage.setItem('nombre', data.usuario.nombre)
       }
+    } catch (error) {
+      console.error('Error actualizando perfil:', error)
+      throw error
     } finally {
       cargando.value = false
     }
@@ -44,6 +50,9 @@ export const useClientStore = defineStore('client', () => {
     cargando.value = true
     try {
       pedidos.value = (await authStore.apiFetch('/perfil/pedidos')) as Pedido[]
+    } catch (error) {
+      console.error('Error cargando pedidos:', error)
+      throw error
     } finally {
       cargando.value = false
     }
@@ -55,6 +64,9 @@ export const useClientStore = defineStore('client', () => {
       pedidoDetalle.value = (await authStore.apiFetch(
         `/perfil/pedidos/${idPedido}`,
       )) as PedidoDetalle
+    } catch (error) {
+      console.error('Error cargando detalle del pedido:', error)
+      throw error
     } finally {
       cargando.value = false
     }
