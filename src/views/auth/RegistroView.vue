@@ -169,4 +169,16 @@ main {
   text-align: center;
   color: white;
 }
+/* enlaces */
+.link-registro {
+  text-align: center;
+  margin-top: 10px;
+  font-family: sans-serif;
+}
+
+.link-registro a {
+  color: #3ca243;
+  font-weight: bold;
+  text-decoration: none;
+}
 </style>

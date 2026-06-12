@@ -35,7 +35,7 @@
             <span>MIS PEDIDOS</span>
           </button>
 
-          <button type="button" class="btn-comprar" @click="irAEditar">
+          <button type="button" class="btn-comprar btn-mostrar-editar" @click="irAEditar">
             <span>EDITAR PERFIL</span>
           </button>
 
@@ -95,3 +95,31 @@ function irAMisPedidos() {
   router.push('/perfil/pedidos')
 }
 </script>
+
+<style scoped>
+.btn-mis-pedidos {
+  display: inline-block;
+  background-color: white;
+  color: #2e7d32;
+  padding: 12px 25px;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  border: 2px solid #2e7d32;
+  margin-top: 0;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.btn-mis-pedidos:hover {
+  background-color: #2e7d32;
+  color: white;
+}
+
+.btn-mostrar-editar {
+  margin-top: 0;
+  cursor: pointer;
+}
+</style>

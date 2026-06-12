@@ -53,7 +53,7 @@ defineProps<{
 .producto-card {
   background-color: #f9f9f9;
   border: 1px solid #ddd;
-  padding: 20px;
+  padding: 30px;
   text-align: center;
   border-radius: 8px;
   display: flex;

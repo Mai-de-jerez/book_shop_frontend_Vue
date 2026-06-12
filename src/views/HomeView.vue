@@ -63,3 +63,26 @@ onMounted(() => {
   tiendaStore.cargarNovedades()
 })
 </script>
+
+<style scoped>
+.btn-productos {
+  display: inline-block;
+  padding: 15px 35px;
+  background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-productos:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(46, 204, 113, 0.5);
+  background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+}
+</style>

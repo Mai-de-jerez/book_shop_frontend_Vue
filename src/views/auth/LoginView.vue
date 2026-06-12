@@ -37,7 +37,7 @@
           <button type="button" class="btn-cancelar" @click="router.push('/')">
             VOLVER AL INICIO
           </button>
-          <router-link to="/recuperar" class="link-login">
+          <router-link to="/auth/recuperar" class="link-login">
             ¿Has olvidado la contraseña?
           </router-link>
         </div>
@@ -120,6 +120,15 @@ main {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
+.form-login .btn-enviar {
+  width: 100%;
+}
+
+.form-buttons-login {
+  flex-direction: column;
+  gap: 15px;
+}
+
 .link-registro {
   text-align: center;
   margin-top: 10px;
@@ -134,6 +143,7 @@ main {
 
 .link-login {
   display: block;
+  text-align: right;
   font-size: 0.9rem;
   color: #666;
   text-decoration: none;
@@ -143,10 +153,5 @@ main {
 
 .link-login:hover {
   color: #3ca243;
-}
-
-.form-buttons-login {
-  flex-direction: column;
-  gap: 15px;
 }
 </style>

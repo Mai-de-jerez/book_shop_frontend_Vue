@@ -201,3 +201,37 @@ const onSubmit = handleSubmit(async (valores) => {
   }
 })
 </script>
+
+<style scoped>
+.btn-checkout-volver {
+  display: inline-block;
+  padding: 12px 25px;
+  background-color: white;
+  color: #333;
+  text-decoration: none;
+  border: 2px solid #333;
+  font-weight: bold;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  margin-top: 0;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.btn-checkout-volver:hover {
+  background-color: #333;
+  color: white;
+}
+
+.form-buttons .btn-comprar,
+.form-buttons .btn-checkout-volver {
+  width: 220px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+}
+</style>

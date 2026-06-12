@@ -93,4 +93,13 @@ function prevSlide() {
 .next {
   right: -10px;
 }
+
+@media (max-width: 768px) {
+  .slider-content {
+    gap: 10px;
+  }
+  .slider-container {
+    width: 95%;
+  }
+}
 </style>

@@ -1,14 +1,24 @@
 <template>
   <div>
     <!-- Buscador -->
-    <SearchInput
+    <!-- <SearchInput
       v-model="shopStore.busqueda"
       placeholder="Buscar libros..."
       @buscar="(v) => shopStore.cargarLibros(v, 1)"
       @limpiar="limpiarBusqueda"
-    />
+    /> -->
 
-    <h2 class="titulo-seccion">LISTADO DE PRODUCTOS</h2>
+    <!-- <h2 class="titulo-seccion">LISTADO DE PRODUCTOS</h2> -->
+
+    <div class="seccion-header">
+      <h2 class="titulo-seccion">LISTADO DE PRODUCTOS</h2>
+      <SearchInput
+        v-model="shopStore.busqueda"
+        placeholder="Buscar libros..."
+        @buscar="(v) => shopStore.cargarLibros(v, 1)"
+        @limpiar="limpiarBusqueda"
+      />
+    </div>
 
     <!-- Grid -->
     <section class="contenedor-grid">
@@ -48,3 +58,32 @@ onMounted(() => {
   }
 })
 </script>
+<style scoped>
+.seccion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.titulo-seccion {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+section.contenedor-grid {
+  margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+  .seccion-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .titulo-seccion {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+</style>

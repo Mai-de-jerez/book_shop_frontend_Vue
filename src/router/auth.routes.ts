@@ -21,7 +21,7 @@ export const authRoutes: RouteRecordRaw[] = [
         component: () => import('../views/auth/RecuperarPasswordView.vue'),
       },
       {
-        path: 'recuperar/confirmar',
+        path: 'confirmar',
         name: 'nueva-password',
         component: () => import('../views/auth/NuevaPasswordView.vue'),
       },
