@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { authRoutes } from './auth.routes'
+import { clientRoutes } from './client.routes'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,23 +17,7 @@ const router = createRouter({
           name: 'tienda-detalle',
           component: () => import('@/views/ShopDetailView.vue'),
         },
-        {
-          path: 'perfil/ver',
-          name: 'perfil',
-          component: () => import('@/views/PerfilView.vue'),
-        },
-        {
-          path: 'perfil/editar',
-          name: 'editar-perfil',
-          component: () => import('@/views/EditarPerfilView.vue'),
-        },
-        {
-          path: 'perfil/pedidos',
-          name: 'mis-pedidos',
-          component: () => import('@/views/MisPedidosView.vue'),
-        },
-        { path: 'carrito', component: () => import('@/views/CartView.vue') },
-        { path: 'checkout', name: 'checkout', component: () => import('@/views/CheckoutView.vue') },
+        ...clientRoutes,
       ],
     },
     ...authRoutes,
