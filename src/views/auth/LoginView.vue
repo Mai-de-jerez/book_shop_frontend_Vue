@@ -58,6 +58,8 @@ const router = useRouter()
 const authStore = useAuthStore()
 const notificacion = useNotificacion()
 const cargando = ref(false)
+// Expresión regular para validar caracteres permitidos en los campos de texto
+const regexTextoValido = /^[a-zA-ZÀ-ÿ\s@\.\-]+$/
 
 const { handleSubmit } = useForm({
   validationSchema: yup.object({
@@ -65,7 +67,8 @@ const { handleSubmit } = useForm({
       .string()
       .required('El usuario es obligatorio')
       .min(3, 'Mínimo 3 caracteres')
-      .max(100, 'Máximo 100 caracteres'),
+      .max(100, 'Máximo 100 caracteres')
+      .matches(regexTextoValido, 'Has introducido caracteres especiales no aceptados'),
     password: yup
       .string()
       .required('La contraseña es obligatoria')

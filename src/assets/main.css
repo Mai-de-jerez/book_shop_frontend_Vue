@@ -115,53 +115,9 @@ input[type='text'] {
 }
 
 /* --- ZONA ADMIN Y PANELES DE GESTIÓN --- */
-.admin-panel {
-  max-width: 600px;
-  margin: 40px auto;
-  background-color: #f4f4f4;
-  padding: 30px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-}
-
-.icono-admin::before {
-  content: '\1F464\FE0E';
-  margin-right: 15px;
-  font-size: 2rem;
-  color: white;
-}
-
-.admin-list {
-  list-style: none;
-  padding: 0;
-}
-
-.admin-list li {
-  margin-bottom: 20px;
-}
-
 .aviso-borrado {
   font-size: 0.9rem;
   color: #888;
-}
-
-.btn-admin {
-  display: flex;
-  align-items: center;
-  padding: 15px;
-  background-color: white;
-  color: #333;
-  text-decoration: none;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-weight: bold;
-  transition: 0.3s;
-}
-
-.btn-admin:hover {
-  background-color: #eee;
-  border-color: #333;
-  transform: translateX(10px);
 }
 
 .btn-volver-admin {
@@ -203,11 +159,6 @@ input[type='text'] {
 .btn-nuevo-admin:hover {
   background-color: #726d6d;
   color: rgb(255, 255, 255);
-}
-
-.icon {
-  margin-right: 15px;
-  font-size: 20px;
 }
 
 .parrafo-seguridad {

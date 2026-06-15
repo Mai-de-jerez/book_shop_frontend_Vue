@@ -85,6 +85,8 @@ const cargando = ref(false)
 
 // Guardamos el archivo de la foto de forma reactiva nativa
 const archivoFoto = ref<File | null>(null)
+// Expresión regular para validar caracteres permitidos en los campos de texto
+const regexTextoValido = /^[a-zA-ZÀ-ÿ\s\-]+$/
 
 // --- ESQUEMA DE VALIDACIÓN CON YUP ---
 const { handleSubmit } = useForm({
@@ -93,7 +95,8 @@ const { handleSubmit } = useForm({
       .string()
       .required('El nombre es obligatorio')
       .min(3, 'Mínimo 3 caracteres')
-      .max(100, 'Máximo 100 caracteres'),
+      .max(100, 'Máximo 100 caracteres')
+      .matches(regexTextoValido, 'Has introducido caracteres especiales no aceptados'),
     email: yup
       .string()
       .required('El correo electrónico es obligatorio')
@@ -119,11 +122,44 @@ const { value: confirmPassword, errorMessage: errorConfirmPassword } =
   useField<string>('confirmPassword')
 const errorFoto = ref('') // Error manual para controlar el archivo si se requiere
 
+// function manejarSubidaFoto(evento: Event) {
+//   const target = evento.target as HTMLInputElement
+//   const file = target.files?.[0]
+//   archivoFoto.value = file || null
+//   errorFoto.value = ''
+// }
+
 function manejarSubidaFoto(evento: Event) {
   const target = evento.target as HTMLInputElement
-  const file = target.files?.[0]
-  archivoFoto.value = file || null
+  const file = target.files?.[0] ?? null
+
+  if (!file) {
+    errorFoto.value = ''
+    archivoFoto.value = null
+    return
+  }
+
+  // Filtros idénticos a los de tu función base
+  const tiposPermitidos = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
+  const tamañoMax = 2 * 1024 * 1024 // 2MB
+
+  if (!tiposPermitidos.includes(file.type)) {
+    errorFoto.value = 'Solo se permiten jpg, png, gif y webp.'
+    archivoFoto.value = null
+    target.value = '' // Limpia el input del HTML de forma inmediata
+    return
+  }
+
+  if (file.size > tamañoMax) {
+    errorFoto.value = 'La foto no puede superar 2MB.'
+    archivoFoto.value = null
+    target.value = ''
+    return
+  }
+
+  // Si pasa ambos cortes, el archivo es seguro
   errorFoto.value = ''
+  archivoFoto.value = file
 }
 
 // --- ENVÍO DEL FORMULARIO CON FORMDATA ---

@@ -1,7 +1,9 @@
 <template>
   <nav>
-    <router-link to="/">Inicio</router-link>
-    <router-link to="/tienda">Tienda</router-link>
+    <template v-if="!authStore.estaLogueado || authStore.esCliente">
+      <router-link to="/">Inicio</router-link>
+      <router-link to="/tienda">Tienda</router-link>
+    </template>
 
     <template v-if="authStore.estaLogueado">
       <template v-if="authStore.esCliente">
