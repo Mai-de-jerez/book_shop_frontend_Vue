@@ -1,17 +1,8 @@
 <template>
   <div>
-    <!-- Buscador -->
-    <!-- <SearchInput
-      v-model="shopStore.busqueda"
-      placeholder="Buscar libros..."
-      @buscar="(v) => shopStore.cargarLibros(v, 1)"
-      @limpiar="limpiarBusqueda"
-    /> -->
-
-    <!-- <h2 class="titulo-seccion">LISTADO DE PRODUCTOS</h2> -->
-
     <div class="seccion-header">
       <h2 class="titulo-seccion">LISTADO DE PRODUCTOS</h2>
+      <!-- Buscador -->
       <SearchInput
         v-model="shopStore.busqueda"
         placeholder="Buscar libros..."

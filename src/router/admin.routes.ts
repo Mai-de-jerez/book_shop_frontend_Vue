@@ -6,14 +6,34 @@ export const adminRoutes: RouteRecordRaw[] = [
     component: () => import('../layouts/AdminLayout.vue'),
     children: [
       {
-        path: '', // Al estar vacío, carga este componente por defecto en la URL /admin
+        path: '',
         component: () => import('@/views/admin/AdminDashView.vue'),
         name: 'admin-dashboard',
       },
       {
-        path: 'libros', // Ojo: SIN la barra '/' inicial
+        path: 'libros',
         component: () => import('@/views/admin/BookListView.vue'),
         name: 'admin-libros',
+      },
+      {
+        path: 'libros/nuevo',
+        component: () => import('@/views/admin/BookCreateView.vue'),
+        name: 'admin-libro-nuevo',
+      },
+      {
+        path: 'libros/eliminar/:id',
+        component: () => import('@/views/admin/BookDeleteView.vue'),
+        name: 'admin-libro-eliminar',
+      },
+      {
+        path: 'libros/:id',
+        component: () => import('@/views/admin/BookDetailView.vue'),
+        name: 'admin-libro-detail',
+      },
+      {
+        path: 'libros/:id/editar',
+        component: () => import('@/views/admin/BookEditView.vue'),
+        name: 'admin-libro-editar',
       },
     ],
   },

@@ -10,9 +10,9 @@ export const useLibroStore = defineStore('libro', () => {
   const libros = ref<LibroResponse[]>([])
   const libroDetalle = ref<LibroResponse | null>(null)
   const cargando = ref(false)
-
   const totalElementos = ref(0)
   const paginaActual = ref(1)
+  const textoBusqueda = ref('')
 
   // --- MÉTODOS / ACCIONES ---
 
@@ -38,6 +38,7 @@ export const useLibroStore = defineStore('libro', () => {
         libros.value = Array.isArray(data) ? (data as LibroResponse[]) : []
       }
       paginaActual.value = pagina
+      textoBusqueda.value = busqueda
     } catch (error) {
       console.error('Error al listar libros:', error)
       throw error
@@ -127,6 +128,7 @@ export const useLibroStore = defineStore('libro', () => {
     cargando,
     totalElementos,
     paginaActual,
+    textoBusqueda,
     listarLibros,
     obtenerLibroPorId,
     crearLibro,
