@@ -126,7 +126,7 @@ import { useRouter } from 'vue-router'
 import { useForm, useField } from 'vee-validate'
 import * as yup from 'yup'
 import { useLibroStore } from '@/stores/book'
-import { useCategoriaStore } from '@/stores/categorias'
+import { useCategoriaStore } from '@/stores/categories'
 import { useNotificacion } from '@/composables/useNotificacion'
 
 const props = defineProps<{

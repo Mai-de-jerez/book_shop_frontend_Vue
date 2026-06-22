@@ -19,7 +19,7 @@
           </router-link>
         </li>
         <li>
-          <router-link to="#" class="btn-admin">
+          <router-link to="/admin/categorias" class="btn-admin">
             <span class="icon">&#x1F3F7;</span> Gestionar Categorías
           </router-link>
         </li>

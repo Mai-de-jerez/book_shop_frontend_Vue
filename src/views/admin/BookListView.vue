@@ -1,5 +1,5 @@
 <template>
-  <section id="vista-listado" class="admin-panel-listado">
+  <section class="admin-panel-listado">
     <div class="barra-superior">
       <Buscador
         v-model="libroStore.textoBusqueda"
@@ -36,7 +36,7 @@
           <td>{{ libro.stock ?? 0 }}</td>
           <td>{{ libro.precio.toFixed(2) }}€</td>
           <td class="celda-acciones">
-            <router-link :to="`/admin/libros/${libro.id}/editar`" class="btn-edit" title="Editar"
+            <router-link :to="`/admin/libros/editar/${libro.id}`" class="btn-edit" title="Editar"
               >✏️</router-link
             >
             <router-link
@@ -85,12 +85,12 @@ const router = useRouter()
 
 const librosPorPagina = 6
 
-onMounted(() => {
-  libroStore.listarLibros(libroStore.textoBusqueda, libroStore.paginaActual, librosPorPagina)
-})
-
 const totalPaginas = computed(() => {
   return Math.ceil(libroStore.totalElementos / librosPorPagina) || 1
+})
+
+onMounted(() => {
+  libroStore.listarLibros(libroStore.textoBusqueda, libroStore.paginaActual, librosPorPagina)
 })
 
 function manejarBuscar(valor: string) {

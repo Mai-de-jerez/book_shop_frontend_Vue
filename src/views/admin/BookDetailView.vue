@@ -19,7 +19,7 @@
             <strong>Descripción completa:</strong><br />{{ libroStore.libroDetalle.descripcion }}
           </p>
           <p class="precio-detalle">Precio: {{ libroStore.libroDetalle.precio.toFixed(2) }} €</p>
-          <RouterLink :to="`/admin/libros/${libroStore.libroDetalle.id}/editar`" class="btn-comprar"
+          <RouterLink :to="`/admin/libros/editar/${libroStore.libroDetalle.id}`" class="btn-comprar"
             ><span class="icon-cart">✏️</span> <span>EDITAR LIBRO</span></RouterLink
           >
           <button @click="confirmarEliminar" class="btn-borrar-libro">ELIMINAR</button>

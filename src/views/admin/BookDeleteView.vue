@@ -11,9 +11,7 @@
         <button class="btn-enviar" @click="confirmarEliminar" :disabled="cargando">
           {{ cargando ? 'ELIMINANDO...' : 'CONFIRMAR BORRADO' }}
         </button>
-        <button class="btn-cancelar" @click="router.push(`/admin/libros/${route.params.id}`)">
-          CANCELAR
-        </button>
+        <button class="btn-cancelar" @click="router.push(`/admin/libros`)">CANCELAR</button>
       </div>
     </section>
   </section>
