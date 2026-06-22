@@ -9,12 +9,12 @@
           </router-link>
         </li>
         <li>
-          <router-link to="#" class="btn-admin">
+          <router-link to="/admin/usuarios" class="btn-admin">
             <span class="icon">&#x1F465;</span> Gestionar Usuarios
           </router-link>
         </li>
         <li>
-          <router-link to="#" class="btn-admin">
+          <router-link to="/admin/pedidos" class="btn-admin">
             <span class="icon">&#x1F6D2;</span> Gestionar Pedidos
           </router-link>
         </li>

@@ -74,35 +74,33 @@ import Buscador from '@/components/SearchInput.vue'
 
 const router = useRouter()
 const categoriaStore = useCategoriaStore()
-const categoriasPorPagina = 6
-
 const totalPaginas = computed(() => {
-  return Math.ceil(categoriaStore.totalCategorias / categoriasPorPagina) || 1
+  return Math.ceil(categoriaStore.totalCategorias / categoriaStore.porPagina) || 1
 })
 
 onMounted(() => {
   categoriaStore.listarCategoriasPaginado(
     categoriaStore.textoBusqueda,
     categoriaStore.paginaActual,
-    categoriasPorPagina,
+    categoriaStore.porPagina,
   )
 })
 
 function manejarBuscar(valor: string) {
   categoriaStore.textoBusqueda = valor
-  categoriaStore.listarCategoriasPaginado(categoriaStore.textoBusqueda, 1, categoriasPorPagina)
+  categoriaStore.listarCategoriasPaginado(categoriaStore.textoBusqueda, 1, categoriaStore.porPagina)
 }
 
 function manejarLimpiar() {
   categoriaStore.textoBusqueda = ''
-  categoriaStore.listarCategoriasPaginado('', 1, categoriasPorPagina)
+  categoriaStore.listarCategoriasPaginado('', 1, categoriaStore.porPagina)
 }
 
 function manejarCambioPagina(nuevaPagina: number) {
   categoriaStore.listarCategoriasPaginado(
     categoriaStore.textoBusqueda,
     nuevaPagina,
-    categoriasPorPagina,
+    categoriaStore.porPagina,
   )
 }
 

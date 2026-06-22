@@ -58,6 +58,33 @@ export const adminRoutes: RouteRecordRaw[] = [
         component: () => import('@/views/admin/CategoryEditView.vue'),
         name: 'admin-categoria-editar',
       },
+
+      // ========== USUARIOS ==========
+      {
+        path: 'usuarios',
+        component: () => import('@/views/admin/UsersListView.vue'),
+        name: 'admin-usuarios',
+      },
+      {
+        path: 'usuarios/nuevo',
+        component: () => import('@/views/admin/UserCreateView.vue'),
+        name: 'admin-usuario-nuevo',
+      },
+      {
+        path: 'usuarios/eliminar/:id',
+        component: () => import('@/views/admin/UserDeleteView.vue'),
+        name: 'admin-usuario-eliminar',
+      },
+      {
+        path: 'usuarios/editar/:id',
+        component: () => import('@/views/admin/UserEditView.vue'),
+        name: 'admin-usuario-editar',
+      },
+      {
+        path: 'usuarios/:id',
+        component: () => import('@/views/admin/UserDetailView.vue'),
+        name: 'admin-usuario-detalle',
+      },
     ],
   },
 ]

@@ -1,28 +1,25 @@
 <template>
-  <div v-if="libroStore.cargando">Cargando...</div>
+  <div v-if="userStore.cargando">Cargando...</div>
 
-  <section v-else-if="libroStore.libroDetalle" id="vista-detalle">
-    <h1 class="detalle-titulo">{{ libroStore.libroDetalle.titulo }}</h1>
+  <section v-else-if="userStore.usuarioDetalle" id="vista-detalle">
+    <h1 class="detalle-titulo">{{ userStore.usuarioDetalle.nombre }}</h1>
     <section class="detalle-contenedor">
-      <div class="detalle-imagen">
-        <img :src="`/media/libros/${libroStore.libroDetalle.imagen}`" alt="Portada" />
+      <div class="detalle-imagen-usuario">
+        <img :src="`/media/usuarios/${userStore.usuarioDetalle.foto}`" alt="Usuario" />
       </div>
       <div class="detalle-info">
-        <p><strong>ID interno:</strong> {{ libroStore.libroDetalle.id }}</p>
-        <p><strong>Stock disponible:</strong> {{ libroStore.libroDetalle.stock }} unidades</p>
-        <p class="autor"><strong>Autor:</strong> {{ libroStore.libroDetalle.autor }}</p>
-        <p class="categoria">
-          <strong>Categoría:</strong> {{ libroStore.libroDetalle.nombreCategoria }}
-        </p>
-        <p class="descripcion">
-          <strong>Descripción completa:</strong><br />{{ libroStore.libroDetalle.descripcion }}
-        </p>
-        <p class="precio-detalle">Precio: {{ libroStore.libroDetalle.precio.toFixed(2) }} €</p>
-        <RouterLink :to="`/admin/libros/editar/${libroStore.libroDetalle.id}`" class="btn-comprar"
-          ><span class="icon-cart">✏️</span> <span>EDITAR LIBRO</span></RouterLink
+        <p><strong>ID interno:</strong> {{ userStore.usuarioDetalle.id }}</p>
+        <p><strong>Nombre:</strong> {{ userStore.usuarioDetalle.nombre }}</p>
+        <p><strong>Email:</strong> {{ userStore.usuarioDetalle.email }}</p>
+        <p><strong>Rol:</strong> {{ getRolNombre(userStore.usuarioDetalle.rol) }}</p>
+
+        <RouterLink
+          :to="`/admin/usuarios/editar/${userStore.usuarioDetalle.id}`"
+          class="btn-comprar"
+          ><span class="icon-cart">✏️</span> <span>EDITAR USUARIO</span></RouterLink
         >
-        <button @click="confirmarEliminar" class="btn-borrar-libro">ELIMINAR</button>
-        <RouterLink to="/admin/libros" class="btn-ver">VOLVER</RouterLink>
+        <button @click="confirmarEliminar" class="btn-borrar-usuario">ELIMINAR</button>
+        <RouterLink to="/admin/usuarios" class="btn-ver">VOLVER</RouterLink>
       </div>
     </section>
   </section>
@@ -31,19 +28,28 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useLibroStore } from '@/stores/book'
+import { useUserStore } from '@/stores/user'
 
 const route = useRoute()
 const router = useRouter()
-const libroStore = useLibroStore()
+const userStore = useUserStore()
 
 onMounted(async () => {
-  await libroStore.obtenerLibroPorId(Number(route.params.id))
+  await userStore.obtenerUsuario(Number(route.params.id))
 })
 
+function getRolNombre(rol: number): string {
+  const roles: Record<number, string> = {
+    1: 'Super Admin',
+    2: 'Admin',
+    3: 'Cliente',
+  }
+  return roles[rol] || 'Desconocido'
+}
+
 async function confirmarEliminar() {
-  if (!libroStore.libroDetalle) return
-  router.push(`/admin/libros/eliminar/${libroStore.libroDetalle.id}`)
+  if (!userStore.usuarioDetalle) return
+  router.push(`/admin/usuarios/eliminar/${userStore.usuarioDetalle.id}`)
 }
 </script>
 
@@ -62,11 +68,11 @@ async function confirmarEliminar() {
   align-items: flex-start;
 }
 
-.detalle-imagen {
+.detalle-imagen-usuario {
   flex: 1;
 }
 
-.detalle-imagen img {
+.detalle-imagen-usuario img {
   width: 100%;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -77,12 +83,6 @@ async function confirmarEliminar() {
   display: flex;
   flex-direction: column;
   gap: 20px;
-}
-
-.precio-detalle {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #e67e22;
 }
 
 .btn-comprar {
@@ -104,7 +104,7 @@ async function confirmarEliminar() {
   color: #2e7d32;
 }
 
-.btn-borrar-libro {
+.btn-borrar-usuario {
   display: inline-block;
   background-color: rgb(255, 0, 0);
   color: white;
@@ -118,7 +118,7 @@ async function confirmarEliminar() {
   text-align: center;
 }
 
-.btn-borrar-libro:hover {
+.btn-borrar-usuario:hover {
   background-color: transparent;
   color: rgb(255, 0, 0);
 }

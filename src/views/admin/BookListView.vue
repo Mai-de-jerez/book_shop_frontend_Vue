@@ -8,12 +8,10 @@
         @buscar="manejarBuscar"
         @limpiar="manejarLimpiar"
       />
-      <router-link to="/admin/libros/nuevo" id="btn-añadir-dinamico" class="btn-nuevo-admin">
-        NUEVO LIBRO
-      </router-link>
+      <router-link to="/admin/libros/nuevo" class="btn-nuevo-admin"> NUEVO LIBRO </router-link>
     </div>
 
-    <h2 id="titulo-seccion" class="titulo-seccion-admin">LISTADO DE LIBROS</h2>
+    <h2 class="titulo-seccion-admin">LISTADO DE LIBROS</h2>
 
     <table class="tabla-admin">
       <thead>
@@ -76,35 +74,32 @@
 import { onMounted, computed } from 'vue'
 import { useLibroStore } from '@/stores/book'
 import { useRouter } from 'vue-router'
-
 import Buscador from '@/components/SearchInput.vue'
 import Paginator from '@/components/Paginator.vue'
 
 const libroStore = useLibroStore()
 const router = useRouter()
 
-const librosPorPagina = 6
-
 const totalPaginas = computed(() => {
-  return Math.ceil(libroStore.totalElementos / librosPorPagina) || 1
+  return Math.ceil(libroStore.totalElementos / libroStore.porPagina) || 1
 })
 
 onMounted(() => {
-  libroStore.listarLibros(libroStore.textoBusqueda, libroStore.paginaActual, librosPorPagina)
+  libroStore.listarLibros(libroStore.textoBusqueda, libroStore.paginaActual, libroStore.porPagina)
 })
 
 function manejarBuscar(valor: string) {
   libroStore.textoBusqueda = valor
-  libroStore.listarLibros(libroStore.textoBusqueda, 1, librosPorPagina)
+  libroStore.listarLibros(libroStore.textoBusqueda, 1, libroStore.porPagina)
 }
 
 function manejarLimpiar() {
   libroStore.textoBusqueda = ''
-  libroStore.listarLibros('', 1, librosPorPagina)
+  libroStore.listarLibros('', 1, libroStore.porPagina)
 }
 
 function manejarCambioPagina(nuevaPagina: number) {
-  libroStore.listarLibros(libroStore.textoBusqueda, nuevaPagina, librosPorPagina)
+  libroStore.listarLibros(libroStore.textoBusqueda, nuevaPagina, libroStore.porPagina)
 }
 
 function irAEliminar(id: number) {

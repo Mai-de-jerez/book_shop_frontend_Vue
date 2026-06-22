@@ -1,122 +1,97 @@
 <template>
-  <section id="vista-formulario">
-    <h2 class="titulo-seccion-form">{{ esEdicion ? 'EDITAR PRODUCTO' : 'NUEVO PRODUCTO' }}</h2>
-    <section class="form-container">
-      <form id="formulario" enctype="multipart/form-data" @submit.prevent="onSubmit">
-        <input type="hidden" id="id_libro" name="id_libro" v-model="idLibro" />
-        <input type="hidden" id="imagen_actual" name="imagen_actual" v-model="imagenActual" />
-        <input type="hidden" id="accion-form" name="accion" value="editar" />
+  <section class="form-container">
+    <h2 class="titulo-seccion-form">
+      {{ esEdicion ? 'EDITAR PRODUCTO' : 'NUEVO PRODUCTO' }}
+    </h2>
+    <form enctype="multipart/form-data" @submit.prevent="onSubmit">
+      <div class="form-content">
+        <label for="titulo">Título del Libro:</label>
+        <input type="text" id="titulo" v-model="titulo" :class="{ 'input-error': errorTitulo }" />
+        <span class="mensaje-error-campo">{{ errorTitulo }}</span>
 
-        <div class="form-content">
-          <label for="titulo">Título del Libro:</label>
-          <input
-            type="text"
-            id="titulo"
-            name="titulo"
-            v-model="titulo"
-            :class="{ 'input-error': errorTitulo }"
-          />
-          <span id="error-titulo" class="mensaje-error-campo">{{ errorTitulo }}</span>
+        <label for="autor">Autor:</label>
+        <input type="text" id="autor" v-model="autor" :class="{ 'input-error': errorAutor }" />
+        <span class="mensaje-error-campo">{{ errorAutor }}</span>
 
-          <label for="autor">Autor:</label>
-          <input
-            type="text"
-            id="autor"
-            name="autor"
-            v-model="autor"
-            :class="{ 'input-error': errorAutor }"
-          />
-          <span id="error-autor" class="mensaje-error-campo">{{ errorAutor }}</span>
+        <label for="descripcion">Descripción completa:</label>
+        <textarea
+          id="descripcion"
+          v-model="descripcion"
+          :class="{ 'input-error': errorDescripcion }"
+        ></textarea>
+        <span class="mensaje-error-campo">{{ errorDescripcion }}</span>
 
-          <label for="descripcion">Descripción completa:</label>
-          <textarea
-            id="descripcion"
-            name="descripcion"
-            v-model="descripcion"
-            :class="{ 'input-error': errorDescripcion }"
-          ></textarea>
-          <span id="error-descripcion" class="mensaje-error-campo">{{ errorDescripcion }}</span>
+        <label for="imagen">Portada del Libro:</label>
+        <input
+          type="file"
+          id="imagen"
+          accept="image/*"
+          class="input-file-bonito"
+          @change="handleFile"
+        />
+        <p class="ayuda-file" id="texto-ayuda-img">
+          {{
+            imagenActual
+              ? 'Imagen actual: ' + imagenActual
+              : 'Permitido jpg, gif y png. Menores de 5 Mb'
+          }}
+        </p>
+        <span class="mensaje-error-campo">{{ errorImagen }}</span
+        ><br />
 
-          <label for="imagen">Portada del Libro:</label>
-          <input
-            type="file"
-            id="imagen"
-            name="imagen"
-            accept="image/*"
-            class="input-file-bonito"
-            @change="handleFile"
-          />
-          <p class="ayuda-file" id="texto-ayuda-img">
-            {{
-              imagenActual
-                ? 'Imagen actual: ' + imagenActual
-                : 'Permitido jpg, gif y png. Menores de 5 Mb'
-            }}
-          </p>
-          <span id="error-imagen" class="mensaje-error-campo">{{ errorImagen }}</span
-          ><br />
+        <!-- Vista previa -->
+        <div v-if="previewUrl" style="margin-bottom: 10px">
+          <img :src="previewUrl" alt="Vista previa" style="max-height: 150px; border-radius: 4px" />
+        </div>
 
-          <!-- Vista previa -->
-          <div v-if="previewUrl" style="margin-bottom: 10px">
-            <img
-              :src="previewUrl"
-              alt="Vista previa"
-              style="max-height: 150px; border-radius: 4px"
+        <div class="form-row-especial">
+          <div class="form-col-especial">
+            <label for="precio">Precio (€):</label>
+            <input
+              type="number"
+              id="precio"
+              step="0.01"
+              v-model.number="precio"
+              :class="{ 'input-error': errorPrecio }"
             />
+            <span class="mensaje-error-campo">{{ errorPrecio }}</span>
           </div>
-
-          <div class="form-row-especial">
-            <div class="form-col-especial">
-              <label for="precio">Precio (€):</label>
-              <input
-                type="number"
-                id="precio"
-                name="precio"
-                step="0.01"
-                v-model.number="precio"
-                :class="{ 'input-error': errorPrecio }"
-              />
-              <span id="error-precio" class="mensaje-error-campo">{{ errorPrecio }}</span>
-            </div>
-            <div class="form-col-especial">
-              <label for="stock">Stock:</label>
-              <input
-                type="number"
-                id="stock"
-                name="stock"
-                v-model.number="stock"
-                :class="{ 'input-error': errorStock }"
-              />
-              <span id="error-stock" class="mensaje-error-campo">{{ errorStock }}</span>
-            </div>
-            <div class="form-col-especial">
-              <label for="id_categoria">Categoría:</label>
-              <select
-                id="id_categoria"
-                name="id_categoria"
-                v-model="idCategoria"
-                :class="{ 'input-error': errorCategoria }"
-              >
-                <option value="">Selecciona...</option>
-                <option v-for="cat in categorias" :key="cat.id" :value="cat.id">
-                  {{ cat.nombre }}
-                </option>
-              </select>
-              <span id="error-id_categoria" class="mensaje-error-campo">{{ errorCategoria }}</span>
-            </div>
+          <div class="form-col-especial">
+            <label for="stock">Stock:</label>
+            <input
+              type="number"
+              id="stock"
+              v-model.number="stock"
+              :class="{ 'input-error': errorStock }"
+            />
+            <span class="mensaje-error-campo">{{ errorStock }}</span>
+          </div>
+          <div class="form-col-especial">
+            <label for="id_categoria">Categoría:</label>
+            <select
+              id="id_categoria"
+              v-model="idCategoria"
+              :class="{ 'input-error': errorCategoria }"
+            >
+              <option value="">Selecciona...</option>
+              <option v-for="cat in categorias" :key="cat.id" :value="cat.id">
+                {{ cat.nombre }}
+              </option>
+            </select>
+            <span class="mensaje-error-campo">{{ errorCategoria }}</span>
           </div>
         </div>
+      </div>
 
-        <div class="form-buttons">
-          <button type="submit" class="btn-enviar" :disabled="cargando">
-            {{ cargando ? 'Guardando...' : esEdicion ? 'Guardar Cambios' : 'Crear Libro' }}
-          </button>
-          <button type="button" class="btn-cancelar btn-cancelar-accion" @click="cancelar">
-            Cancelar
-          </button>
-        </div>
-      </form>
-    </section>
+      <div class="form-buttons">
+        <button type="submit" class="btn-enviar" :disabled="cargando">
+          {{ cargando ? 'Guardando...' : esEdicion ? 'Guardar Cambios' : 'Crear Libro' }}
+        </button>
+        <button type="button" class="btn-cancelar btn-cancelar-accion" @click="cancelar">
+          Cancelar
+        </button>
+      </div>
+    </form>
   </section>
 </template>
 
@@ -147,7 +122,6 @@ const cargando = ref(false)
 const archivoImagen = ref<File | null>(null)
 const previewUrl = ref<string | null>(null)
 const imagenActual = ref('')
-const idLibro = ref('')
 
 // Cargar categorías
 const categorias = ref<any[]>([])
@@ -235,10 +209,9 @@ function handleFile(event: Event) {
 
 const onSubmit = handleSubmit(async () => {
   cargando.value = true
-
   try {
     const formData = new FormData()
-    formData.append('id_libro', idLibro.value)
+
     formData.append('titulo', titulo.value)
     formData.append('autor', autor.value)
     formData.append('descripcion', descripcion.value)
@@ -278,7 +251,6 @@ onMounted(async () => {
       await libroStore.obtenerLibroPorId(Number(props.id))
       const libro = libroStore.libroDetalle
       if (libro) {
-        idLibro.value = String(libro.id)
         imagenActual.value = libro.imagen || ''
 
         setValues({

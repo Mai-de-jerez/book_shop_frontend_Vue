@@ -12,6 +12,7 @@ export const useLibroStore = defineStore('libro', () => {
   const cargando = ref(false)
   const totalElementos = ref(0)
   const paginaActual = ref(1)
+  const porPagina = ref(6)
   const textoBusqueda = ref('')
 
   // --- MÉTODOS / ACCIONES ---
@@ -19,17 +20,17 @@ export const useLibroStore = defineStore('libro', () => {
   /**
    * 1. GET /api/libros con filtros
    */
-  async function listarLibros(busqueda = '', pagina = 1, porPagina = 6): Promise<void> {
+
+  async function listarLibros(busqueda = '', pagina = 1, porPaginaParam = 6): Promise<void> {
     cargando.value = true
     try {
       const params = new URLSearchParams()
       if (busqueda.trim()) params.append('busqueda', busqueda.trim())
       params.append('pagina', String(pagina))
-      params.append('porPagina', String(porPagina))
+      params.append('porPagina', String(porPaginaParam))
 
       const data = await authStore.apiFetch(`/libros?${params.toString()}`)
 
-      // Controlamos si viene envuelto en el paginador o es el array directo
       if (data && typeof data === 'object' && 'contenido' in data) {
         const res = data as PaginaLibros
         libros.value = res.contenido || []
@@ -38,6 +39,7 @@ export const useLibroStore = defineStore('libro', () => {
         libros.value = Array.isArray(data) ? (data as LibroResponse[]) : []
       }
       paginaActual.value = pagina
+      porPagina.value = porPaginaParam
       textoBusqueda.value = busqueda
     } catch (error) {
       console.error('Error al listar libros:', error)
@@ -128,6 +130,7 @@ export const useLibroStore = defineStore('libro', () => {
     cargando,
     totalElementos,
     paginaActual,
+    porPagina,
     textoBusqueda,
     listarLibros,
     obtenerLibroPorId,
