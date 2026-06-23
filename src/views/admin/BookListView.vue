@@ -25,7 +25,7 @@
           <th>Acciones</th>
         </tr>
       </thead>
-      <tbody id="tabla-body">
+      <tbody>
         <tr v-for="libro in libroStore.libros" :key="libro.id">
           <td>{{ libro.id }}</td>
           <td>{{ libro.titulo }}</td>

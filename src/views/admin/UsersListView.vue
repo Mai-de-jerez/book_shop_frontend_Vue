@@ -24,7 +24,7 @@
           <th>Acciones</th>
         </tr>
       </thead>
-      <tbody id="tabla-body">
+      <tbody>
         <tr v-for="usuario in userStore.usuarios" :key="usuario.id">
           <td>{{ usuario.id }}</td>
           <td>

@@ -85,6 +85,23 @@ export const adminRoutes: RouteRecordRaw[] = [
         component: () => import('@/views/admin/UserDetailView.vue'),
         name: 'admin-usuario-detalle',
       },
+
+      // ========== PEDIDOS ==========
+      {
+        path: 'pedidos',
+        component: () => import('@/views/admin/OrderListView.vue'),
+        name: 'admin-pedidos',
+      },
+      {
+        path: 'pedidos/editar/:id',
+        component: () => import('@/views/admin/OrderEditView.vue'),
+        name: 'admin-pedido-editar',
+      },
+      {
+        path: 'pedidos/:id',
+        component: () => import('@/views/admin/OrderDetailView.vue'),
+        name: 'admin-pedido-detalle',
+      },
     ],
   },
 ]

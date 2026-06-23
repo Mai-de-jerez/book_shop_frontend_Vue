@@ -23,7 +23,7 @@
           <th>Acciones</th>
         </tr>
       </thead>
-      <tbody id="tabla-body">
+      <tbody>
         <tr v-for="categoria in categoriaStore.categorias" :key="categoria.id">
           <td>{{ categoria.id }}</td>
           <td>{{ categoria.nombre }}</td>
