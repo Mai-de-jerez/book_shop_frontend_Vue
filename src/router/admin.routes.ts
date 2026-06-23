@@ -4,6 +4,7 @@ export const adminRoutes: RouteRecordRaw[] = [
   {
     path: '/admin',
     component: () => import('../layouts/AdminLayout.vue'),
+    meta: { requiereAuth: true, soloAdmin: true },
     children: [
       {
         path: '',
@@ -27,14 +28,14 @@ export const adminRoutes: RouteRecordRaw[] = [
         name: 'admin-libro-eliminar',
       },
       {
-        path: 'libros/:id',
-        component: () => import('@/views/admin/BookDetailView.vue'),
-        name: 'admin-libro-detail',
-      },
-      {
         path: 'libros/editar/:id',
         component: () => import('@/views/admin/BookEditView.vue'),
         name: 'admin-libro-editar',
+      },
+      {
+        path: 'libros/:id',
+        component: () => import('@/views/admin/BookDetailView.vue'),
+        name: 'admin-libro-detail',
       },
 
       // ========== CATEGORÍAS ==========
