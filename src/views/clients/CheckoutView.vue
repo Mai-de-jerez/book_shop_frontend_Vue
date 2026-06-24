@@ -187,10 +187,9 @@ const onSubmit = handleSubmit(async (valores) => {
         metodo_pago: valores.metodoPago,
       }),
     })
-
     if (data.resultado === 'OK') {
-      sessionStorage.removeItem('carrito')
       cartStore.carrito = []
+      sessionStorage.removeItem(`carrito_${authStore.userId}`)
       notificacion.exito('¡Pedido realizado con éxito! ID: ' + data.id_pedido)
       router.push('/')
     }

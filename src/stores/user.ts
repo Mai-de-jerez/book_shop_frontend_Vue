@@ -119,10 +119,6 @@ export const useUserStore = defineStore('user', () => {
       usuarios.value = usuarios.value.filter((u) => u.id !== id)
       totalUsuarios.value--
 
-      if (usuarioDetalle.value?.id === id) {
-        usuarioDetalle.value = null
-      }
-
       return data
     } catch (error) {
       console.error(`Error al eliminar usuario ${id}:`, error)
